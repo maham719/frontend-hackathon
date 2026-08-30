@@ -1,6 +1,6 @@
 import axios from "axios";
 
-onst api =axios.create({
+const api =axios.create({
     baseURL: window.location.hostname === "localhost"
       ? "http://localhost:3006/api/auth"
       : "https://backend-hackathon-seven.vercel.app/",

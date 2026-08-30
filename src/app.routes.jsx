@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
     element:<AgentDashboard/>
   },
   {
-    path:'/admin/dashboard',
+    path:'/admindashboard',
     element:<AdminDashboard/>
   }
 ]);
