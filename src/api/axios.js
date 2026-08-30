@@ -1,9 +1,11 @@
 import axios from "axios";
 
-const api = axios.create({
-    baseURL: "http://localhost:3006/api/auth",
-    withCredentials: true,
-});
+onst api =axios.create({
+    baseURL: window.location.hostname === "localhost"
+      ? "http://localhost:3006/api/auth"
+      : "https://backend-hackathon-seven.vercel.app/",
+    withCredentials:true
+})
 
 // Access token lives only in memory
 let accessToken = null;
