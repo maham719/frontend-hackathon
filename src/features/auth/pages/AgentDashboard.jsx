@@ -1,7 +1,8 @@
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { useTheme } from "../../../context/ThemeContext.jsx";
+import { useAuth } from "../services/authContext.jsx";
 import Header from "../../../components/agent/Header.jsx";
 import DashboardMain from "../../../components/agent/DashboardMain.jsx";
 import AllTickets from "../../../components/agent/AllTickets.jsx";
@@ -32,6 +33,7 @@ const ticketRows = [
 
 const AgentDashboard = () => {
   const { theme } = useTheme();
+  const { logout } = useAuth();
   const isDark = theme === "dark";
   const [activeView, setActiveView] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -102,13 +104,13 @@ const AgentDashboard = () => {
 
          
 
-            <nav className="flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-2 lg:overflow-visible lg:pb-0">
+            <nav className="space-y-2">
               {navItems.map(({ label, icon }) => (
                 <button
                   key={label}
                   type="button"
                   onClick={() => selectView(label)}
-                  className={`flex min-w-max flex-1 items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:w-full lg:text-base ${
+                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:text-base ${
                     activeView === label
                       ? isDark
                         ? "bg-[#1d2434] text-white"
@@ -125,11 +127,11 @@ const AgentDashboard = () => {
             </nav>
           </div>
 
-          <div className="mt-3 flex gap-2 border-t pt-3 lg:mt-0 lg:block lg:space-y-2 lg:pt-4">
+          <div className="mt-3 space-y-2 border-t pt-3 lg:mt-0 lg:pt-4">
             <button
               type="button"
               onClick={() => selectView("Settings")}
-              className={`flex flex-1 items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:w-full lg:text-base ${
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:text-base ${
                 activeView === "Settings"
                   ? isDark
                     ? "bg-[#1d2434] text-white"
@@ -145,7 +147,7 @@ const AgentDashboard = () => {
             <button
               type="button"
               onClick={() => selectView("Profile")}
-              className={`flex flex-1 items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:w-full lg:text-base ${
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:text-base ${
                 activeView === "Profile"
                   ? isDark
                     ? "bg-[#1d2434] text-white"
@@ -157,6 +159,21 @@ const AgentDashboard = () => {
             >
               <span className="text-sm">◉</span>
               <span>Profile</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSidebarOpen(false);
+                logout();
+              }}
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-colors lg:text-base ${
+                isDark
+                  ? "text-[#d9def0] hover:bg-[#151f2d]"
+                  : "text-[#4e4b5d] hover:bg-[#f1e8ff]"
+              }`}
+            >
+              <LogOut size={18} />
+              <span>Logout</span>
             </button>
           </div>
         </aside>

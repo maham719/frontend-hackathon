@@ -253,9 +253,7 @@ return (
                   operation today.
                 </p>
               </div>
-              <button className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#9b5ce7] to-[#7f46d9] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_25px_rgba(127,70,217,0.3)] transition-transform hover:scale-[1.01]">
-                View All Tickets <ChevronRight size={16} />
-              </button>
+             
             </div>
           </section>
 

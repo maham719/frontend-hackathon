@@ -24,7 +24,7 @@ import {
 import Themetogglebutton from "../../components/Themetogglebutton.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import {useAuth} from "../../features/auth/services/authContext.jsx"
-const Header = () => {
+const Header = ({ onOpenMenu }) => {
     const {user}=useAuth()
     const { theme } = useTheme();
       const isDark = theme === "dark";
@@ -38,7 +38,7 @@ const Header = () => {
             <div className="flex items-center gap-3">
               <button
                 aria-label="Open navigation"
-                onClick={() => setMenuOpen(true)}
+                onClick={onOpenMenu}
                 className={`rounded-xl p-2 lg:hidden ${isDark ? "bg-[#1b2434]" : "bg-[#f8f3ff]"}`}
               >
                 <Menu size={20} />

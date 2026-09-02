@@ -246,6 +246,7 @@ const AdminDashboard = () => {
                     if (label === "Customers") setActiveView("customers");
                     if (label === "Analytics") setActiveView("analytics");
                     if (label === "Dashboard") setActiveView("dashboard");
+                    setMenuOpen(false);
                   }}
                   className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium transition-all ${((label === "Dashboard" && activeView === "dashboard") || (label === "All Tickets" && activeView === "tickets") || (label === "Agents" && activeView === "agents") || (label === "Customers" && activeView === "customers") || (label === "Analytics" && activeView === "analytics")) ? (isDark ? "bg-[#1f2736] text-white shadow-sm" : "bg-[#ebe1ff] text-[#1d1e2d]") : isDark ? "text-[#d7d9ea] hover:bg-[#171f2d]" : "text-[#4a4763] hover:bg-[#efe7ff]"}`}
                 >
@@ -266,14 +267,20 @@ const AdminDashboard = () => {
             className={`space-y-2 border-t pt-4 ${isDark ? "border-[#293449]" : "border-[#e5dced]"}`}
           >
             <button
-              onClick={() => setActiveView("settings")}
+              onClick={() => {
+                setActiveView("settings");
+                setMenuOpen(false);
+              }}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium ${muted}`}
             >
               <Settings size={18} />
               Settings
             </button>
             <button
-              onClick={() => setActiveView("profile")}
+              onClick={() => {
+                setActiveView("profile");
+                setMenuOpen(false);
+              }}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium ${muted}`}
             >
               <CircleUserRound size={18} />
@@ -297,7 +304,7 @@ const AdminDashboard = () => {
           />
         )}
         <main className="min-w-0 flex-1 p-5 sm:p-6 lg:p-8">
-        <Header/>
+        <Header onOpenMenu={() => setMenuOpen(true)} />
 
         {activeView === "tickets" ? <AllTickets /> : activeView === "agents" ? <Agents /> : activeView === "customers" ? <Customers /> : activeView === "analytics" ? <Analytics /> : activeView === "settings" ? <SettingsPage /> : activeView === "profile" ? <Profile /> : <DashboardMain />}
         </main>
