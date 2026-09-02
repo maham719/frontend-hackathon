@@ -381,9 +381,9 @@ useEffect(() => {
   const assignedAgentName = ticket.assignedAgent?.username || ticket.assignedAgent?.email || "Unassigned";
 
   return (
-    <main className={`min-h-screen px-4 py-8 transition-colors duration-300 sm:px-6 lg:px-8 ${isDark ? "bg-[#0d1525] text-[#f3ebff]" : "bg-[#f5f0ff] text-[#1f1f2e]"}`}>
+    <main className={`min-h-screen px-2 py-4 transition-colors duration-300 sm:px-6 sm:py-8 lg:px-8 ${isDark ? "bg-[#0d1525] text-[#f3ebff]" : "bg-[#f5f0ff] text-[#1f1f2e]"}`}>
       {notification && (
-    <div className="fixed right-5 top-5 z-[9999] w-[340px] rounded-2xl border border-[#8d5fe5] bg-[#1b2330] p-4 text-white shadow-2xl">
+    <div className="fixed left-2 right-2 top-3 z-[9999] rounded-2xl border border-[#8d5fe5] bg-[#1b2330] p-3 text-white shadow-2xl sm:left-auto sm:right-5 sm:top-5 sm:w-[340px] sm:p-4">
         <div className="flex items-start gap-3">
             <div className="mt-0.5">
                 <AlertCircle size={20} className="text-[#a995ff]" />
@@ -402,7 +402,7 @@ useEffect(() => {
     </div>
 )}
       <div className="mx-auto max-w-7xl">
-        <header className={`mb-6 rounded-[28px] border p-5 shadow-[0_18px_45px_rgba(67,47,92,0.09)] ${panelClass}`}>
+        <header className={`mb-4 rounded-2xl border p-3 shadow-[0_18px_45px_rgba(67,47,92,0.09)] sm:mb-6 sm:rounded-[28px] sm:p-5 ${panelClass}`}>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-3">
               <button
@@ -432,14 +432,14 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
+          <div className="mt-5 flex min-w-0 flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
             <div>
               <p className={`mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>Subject</p>
-              <h2 className={`text-3xl font-semibold tracking-[-0.06em] ${heading}`}>{ticket.subject || "Untitled ticket"}</h2>
+              <h2 className={`break-words text-2xl font-semibold tracking-[-0.06em] sm:text-3xl ${heading}`}>{ticket.subject || "Untitled ticket"}</h2>
             </div>
 
             <div className={`flex flex-wrap items-center gap-3 text-sm ${muted}`}>
-              <span>Customer: {customerName}</span>
+              <span className="min-w-0 break-words">Customer: {customerName}</span>
               <span>•</span>
               <span>Created: {formatDate(ticket.createdAt)}</span>
               <span>•</span>
@@ -448,39 +448,39 @@ useEffect(() => {
           </div>
         </header>
 
-        <div className="grid gap-6 xl:grid-cols-[1.7fr_0.9fr]">
-          <section className={`rounded-[28px] border p-5 shadow-[0_18px_45px_rgba(67,47,92,0.08)] ${panelClass}`}>
-            <div className="mb-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid min-w-0 gap-4 sm:gap-6 xl:grid-cols-[1.7fr_0.9fr]">
+          <section className={`min-w-0 rounded-2xl border p-3 shadow-[0_18px_45px_rgba(67,47,92,0.08)] sm:rounded-[28px] sm:p-5 ${panelClass}`}>
+            <div className="mb-4 grid gap-3 sm:mb-5 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
               {[
                 ["Customer", customerName],
                 ["Category", normalizeCategory(ticket.category || categoryDraft)],
                 ["Priority", normalizePriority(ticket.priority || priorityDraft)],
                 ["Status", normalizeStatus(ticket.status || statusDraft)],
               ].map(([label, value]) => (
-                <div key={label} className={`rounded-[18px] border p-4 ${softPanel}`}>
+                <div key={label} className={`rounded-[18px] border p-3 sm:p-4 ${softPanel}`}>
                   <p className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>{label}</p>
                   <p className={`text-sm font-semibold ${heading}`}>{value}</p>
                 </div>
               ))}
             </div>
 
-            <div className={`mb-6 rounded-[20px] border p-5 ${softPanel}`}>
-              <div className="mb-3 flex items-center justify-between gap-3">
+            <div className={`mb-5 rounded-[20px] border p-3 sm:mb-6 sm:p-5 ${softPanel}`}>
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                     <Sparkles size={18} />
                   </div>
                   <div>
                     <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>AI triage</p>
-                    <h3 className={`text-xl font-semibold ${heading}`}>AI Triage Suggestions</h3>
+                    <h3 className={`text-lg font-semibold sm:text-xl ${heading}`}>AI Triage Suggestions</h3>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
                   <button
                     type="button"
                     onClick={() => setShowAiEdit((prev) => !prev)}
-                    className={`rounded-xl border px-3 py-2 text-xs font-semibold ${isDark ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]" : "border-[#e9ddf9] bg-[#f9f5ff] text-[#171827]"}`}
+                    className={`w-full rounded-xl border px-3 py-2 text-xs font-semibold sm:w-auto ${isDark ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]" : "border-[#e9ddf9] bg-[#f9f5ff] text-[#171827]"}`}
                   >
                     Edit Suggestions
                   </button>
@@ -488,7 +488,7 @@ useEffect(() => {
                     type="button"
                     onClick={() => handleAiReview(true)}
                     disabled={savingAi}
-                    className="rounded-xl bg-[#8d5fe5] px-3 py-2 text-xs font-semibold text-white disabled:opacity-60"
+                    className="w-full rounded-xl bg-[#8d5fe5] px-3 py-2 text-xs font-semibold text-white disabled:opacity-60 sm:w-auto"
                   >
                     {savingAi ? "Saving..." : "Accept Suggestions"}
                   </button>
@@ -564,19 +564,19 @@ useEffect(() => {
             </div>
 
             <div className="mb-6">
-              <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                     <MessageSquareText size={18} />
                   </div>
                   <h3 className={`text-xl font-semibold ${heading}`}>Customer conversation</h3>
                 </div>
-                <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>{messages.length} messages</p>
+                <p className={`shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>{messages.length} messages</p>
               </div>
 
-              <div className={`rounded-[22px] border p-4 ${softPanel}`}>
+              <div className={`rounded-[22px] border p-3 sm:p-4 ${softPanel}`}>
                 {messages.length === 0 ? (
-                  <div className="flex min-h-[220px] items-center justify-center rounded-[18px] border border-dashed p-6 text-center">
+                  <div className="flex min-h-[160px] items-center justify-center rounded-[18px] border border-dashed p-4 text-center sm:min-h-[220px] sm:p-6">
                     <div>
                       <div className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                         <MessageSquareText size={20} />
@@ -592,7 +592,18 @@ useEffect(() => {
 
                       return (
                         <div key={message._id || `${message.createdAt}-${message.sender?.username}`} className={`flex ${isAgentMessage ? "justify-end" : "justify-start"}`}>
-                          <div className={`max-w-[85%] rounded-2xl border px-4 py-3 ${isAgentMessage ? (isDark ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]" : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]") : (isDark ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]" : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")}`}>
+                          <div
+  className={`w-[80%] md:w-[40%] break-words rounded-2xl border
+    px-2 py-2 md:px-3 md:py-3
+    ${isAgentMessage
+      ? (isDark
+          ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
+          : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]")
+      : (isDark
+          ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
+          : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")
+    }`}
+>
                             <p className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-[#b9c4e8]" : "text-[#67627b]"}`}>
                               {message.sender?.username || message.senderRole || (isAgentMessage ? "Agent" : "Customer")}
                             </p>
@@ -656,7 +667,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className={`rounded-[20px] border p-5 ${softPanel}`}>
+            <div className={`rounded-[20px] border p-3 sm:p-5 ${softPanel}`}>
               <div className="mb-4 flex items-center gap-3">
                 <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                   <CheckCircle2 size={18} />
@@ -739,7 +750,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className={`mt-6 rounded-[20px] border p-5 ${softPanel}`}>
+            <div className={`mt-5 rounded-[20px] border p-3 sm:mt-6 sm:p-5 ${softPanel}`}>
               <div className="mb-4 flex items-center gap-3">
                 <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                   <ChevronRight size={18} />
@@ -768,7 +779,7 @@ useEffect(() => {
             </div>
 
             {activityEntries.length > 0 && (
-              <div className={`mt-6 rounded-[20px] border p-5 ${softPanel}`}>
+              <div className={`mt-5 rounded-[20px] border p-3 sm:mt-6 sm:p-5 ${softPanel}`}>
                 <div className="mb-4 flex items-center gap-3">
                   <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                     <Clock3 size={18} />
@@ -788,7 +799,7 @@ useEffect(() => {
             )}
           </section>
 
-          <aside className={`rounded-[28px] border p-5 shadow-[0_18px_45px_rgba(67,47,92,0.08)] ${panelClass}`}>
+          <aside className={`min-w-0 rounded-2xl border p-3 shadow-[0_18px_45px_rgba(67,47,92,0.08)] sm:rounded-[28px] sm:p-5 ${panelClass}`}>
             <div className="mb-5 flex items-center gap-3">
               <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
                 <Sparkles size={18} />

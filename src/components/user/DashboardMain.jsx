@@ -83,21 +83,29 @@ const summaryCards = [
     >
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <h1 className={`text-4xl font-semibold tracking-[-0.05em] ${isDark ? "text-[#f8f0ff]" : "text-[#1f1f2e]"}`}>
-            Hello, {user?.username || "User"}!
-          </h1>
-          <p className={`mt-2 text-base ${isDark ? "text-[#d8cfe7]" : "text-[#4f4a5d]"}`}>
-            Here is what&apos;s happening with your support queue today.
-          </p>
+         <h1
+  className={`text-2xl sm:text-3xl md:text-4xl font-semibold tracking-[-0.05em] ${
+    isDark ? "text-[#f8f0ff]" : "text-[#1f1f2e]"
+  }`}
+>
+  Hello, {user?.username || "User"}!
+</h1>
+         <p
+  className={`mt-2 text-sm sm:text-base ${
+    isDark ? "text-[#d8cfe7]" : "text-[#4f4a5d]"
+  }`}
+>
+  Here is what&apos;s happening with your support queue today.
+</p>
         </div>
 
-        <button
-          type="button"
-          onClick={onCreateTicket}
-          className="rounded-xl bg-gradient-to-r from-[#9b5ce7] to-[#7f46d9] px-5 py-3 text-base font-semibold text-white shadow-[0_12px_25px_rgba(127,70,217,0.35)] transition-transform hover:scale-[1.01]"
-        >
-          + Create New Ticket
-        </button>
+       <button
+  type="button"
+  onClick={onCreateTicket}
+  className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#9b5ce7] to-[#7f46d9] px-4 py-2.5 sm:px-5 sm:py-3 text-sm sm:text-base font-semibold text-white shadow-[0_12px_25px_rgba(127,70,217,0.35)] transition-transform hover:scale-[1.01]"
+>
+  + Create New Ticket
+</button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">

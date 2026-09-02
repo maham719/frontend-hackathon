@@ -348,7 +348,17 @@ const handleSendMessage = async () => {
 
                           return (
                             <div key={message._id || `${message.createdAt}-${message.sender?.username}`} className={`flex ${isAgentMessage ? "justify-end" : "justify-start"}`}>
-                              <div className={`max-w-[85%] rounded-2xl border px-4 py-3 ${isAgentMessage ? (isDark ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]" : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]") : (isDark ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]" : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")}`}>
+                            <div
+  className={`w-[80%] md:w-[40%] break-words rounded-2xl border px-2 py-2 md:px-3 md:py-3 ${
+    isAgentMessage
+      ? (isDark
+          ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
+          : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]")
+      : (isDark
+          ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
+          : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")
+  }`}
+>
                                 <p className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-[#b9c4e8]" : "text-[#67627b]"}`}>
                                   {message.sender?.username || message.senderRole || (isAgentMessage ? "Agent" : "Customer")}
                                 </p>
