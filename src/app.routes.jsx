@@ -7,12 +7,11 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoutes.jsx";
 import AgentDashboard from "./features/auth/pages/AgentDashboard.jsx";
 import AdminDashboard from "./features/auth/pages/AdminDashboard.jsx";
-
-
+import UserAnalytics from "./components/user/UserAnalytics.jsx";
+import TicketDetail from "./components/user/TicketDetail.jsx";
+import AgentTicketDetails from "./components/agent/TicketDetails.jsx";
 
 export const router = createBrowserRouter([
-
- 
   {
     path: "/",
     element: <LandingPage />,
@@ -30,15 +29,27 @@ export const router = createBrowserRouter([
     element: <VerifyEmail />,
   },
   {
-    path:"/dashboard",
-     element:<ProtectedRoute/>
+    path: "/dashboard",
+    element: <ProtectedRoute />,
   },
   {
-    path:'/agent-dashboard',
-    element:<AgentDashboard/>
+    path: "/insights",
+    element: <UserAnalytics />,
   },
   {
-    path:'/admindashboard',
-    element:<AdminDashboard/>
-  }
+    path: "/agent-dashboard",
+    element: <AgentDashboard />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/tickets/:ticketId",
+    element: <TicketDetail />,
+  },
+  {
+    path: "/agent-dashboard/tickets/:ticketId",
+    element: <AgentTicketDetails />,
+  },
 ]);

@@ -12,41 +12,51 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
   const navigate = useNavigate();
 
     const handleLogin = async (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
+    if (loggingIn) return;
 
-        const result = await login(
-            email,
-            password
-        );
+    setLoggingIn(true);
+
+    try {
+        const result = await login(email, password);
 
         if (result.success) {
-
             console.log("Logged in");
-
-            // Navigate to dashboard
             navigate("/dashboard");
-
         } else {
-
             console.log(result.message);
-
         }
-    };
+    } finally {
+        setLoggingIn(false);
+    }
+};
 
 const handleAdminLogin = async (e) => {
-  e.preventDefault();
-    const result = await login(email, password);
+    e.preventDefault();
 
-    if (result.success) {
-        if (result.user.role === "admin") {
-            navigate("/dashboard");
+    if (loggingIn) return;
+
+    setLoggingIn(true);
+
+    try {
+        const result = await login(email, password);
+
+        if (result.success) {
+            if (result.user.role === "admin") {
+                navigate("/dashboard");
+            } else {
+                console.log("This account is not an admin");
+            }
         } else {
-            console.log("This account is not an admin");
+            console.log(result.message);
         }
+    } finally {
+        setLoggingIn(false);
     }
 };
   return (
@@ -199,21 +209,23 @@ const handleAdminLogin = async (e) => {
 
             <button
               type="submit"
+              disabled={loggingIn}
               className="mt-2 w-full rounded-xl bg-gradient-to-r from-[#9b5ce7] to-[#7f46d9] px-4 py-3 text-lg font-semibold text-white shadow-[0_12px_25px_rgba(127,70,217,0.35)] transition-transform hover:scale-[1.01]"
             >
-              Log in
+              {loggingIn ? "Logging in..." : "Log in"}
             </button>
 
             <button
               type="button"
               onClick={handleAdminLogin}
+                disabled={loggingIn}
               className={`mt-2 w-full rounded-xl border px-4 py-3 text-lg font-medium ${
                 isDark
                   ? "border-[#4c3a5d] bg-[#2a1f36] text-[#f3ebff] hover:bg-[#342540]"
                   : "border-[#e9def6] bg-[#f4eff8] text-[#1f1f2e] hover:bg-[#efe5fa]"
               }`}
             >
-              Log in as admin
+          {loggingIn ? "Logging in..." : "Log in as admin"}
             </button>
           </form>
 

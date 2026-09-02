@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../features/auth/services/authContext.jsx";
+import Loading from "./Loading.jsx";
 
 const PublicRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -7,7 +8,7 @@ const PublicRoute = ({ children }) => {
     console.log("PublicRoute:", { user, loading });
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading text="Preparing your experience..." />;
     }
 
     if (user) {

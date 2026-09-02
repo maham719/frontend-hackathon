@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api, {
     setAccessToken,
-    clearAccessToken
+    clearAccessToken,
 } from "../../../api/axios.js";
 
-
+import socket, { connectSocket } from "../../../services/socket.js";
 // Create context
 const AuthContext = createContext();
 
@@ -14,8 +14,8 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-
+const [restoringSession, setRestoringSession] = useState(true);
+const [accessToken, setAccessTokenState] = useState(null);
     // ==========================================
     // RESTORE SESSION WHEN APP STARTS
     // ==========================================
@@ -23,33 +23,40 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
 
         const restoreSession = async () => {
-
+    setRestoringSession(true);
             try {
 
-                const response = await api.get("/refresh");
+             const response = await api.get("/auth/refresh");
 
-                const newAccessToken =
-                    response.data.accessToken;
+console.log("REFRESH RESPONSE:", response.data);
 
-                setAccessToken(newAccessToken);
+const newAccessToken = response.data.accessToken;
 
+console.log("NEW ACCESS TOKEN:", newAccessToken);
+
+setAccessToken(newAccessToken);
+setAccessTokenState(newAccessToken);
+                connectSocket(newAccessToken);
 
                 
                 const userResponse =
-                    await api.get("/get-me");
+                    await api.get("/auth/get-me");
 
                 setUser(userResponse.data.user);
 
             } catch (error) {
 
-             
+    
+               console.log("AUTH RESTORE ERROR:", error);
+            console.log("ERROR STATUS:", error.response?.status);
+            console.log("ERROR DATA:", error.response?.data);
                 clearAccessToken();
                 setUser(null);
 
             } finally {
 
                 setLoading(false);
-
+setRestoringSession(false);
             }
         };
 
@@ -63,43 +70,41 @@ export const AuthProvider = ({ children }) => {
     // LOGIN
     // ==========================================
 
-    const login = async (email, password) => {
+  const login = async (email, password) => {
+    try {
+        const response = await api.post("/auth/login", {
+            email,
+            password
+        });
 
-        try {
+        const {
+            accessToken,
+            user
+        } = response.data;
 
-            const response = await api.post("/login", {
-                email,
-                password
-            });
+        setAccessToken(accessToken);
+        setAccessTokenState(accessToken);
+        connectSocket(accessToken);
 
-            const {
-                accessToken,
-                user
-            } = response.data;
+        setUser(user);
 
+        return {
+            success: true,
+            user
+        };
+    } catch (error) {
+        console.log("LOGIN ERROR:", error);
+        console.log("LOGIN ERROR RESPONSE:", error.response?.data);
+        console.log("LOGIN ERROR STATUS:", error.response?.status);
 
-            
-            setAccessToken(accessToken);
-
-            // Store user in React state
-            setUser(user);
-
-
-            return {
-                success: true,
-                user
-            };
-
-        } catch (error) {
-
-            return {
-                success: false,
-                message:
-                    error.response?.data?.message ||
-                    "Login failed"
-            };
-        }
-    };
+        return {
+            success: false,
+            message:
+                error.response?.data?.message ||
+                "Login failed"
+        };
+    }
+};
 
 
     // ==========================================
@@ -110,7 +115,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            await api.post("/logout");
+            await api.post("/auth/logout");
 
         } catch (error) {
 
@@ -126,7 +131,7 @@ export const AuthProvider = ({ children }) => {
 
             // Remove user from React state
             setUser(null);
-
+             socket.disconnect();
         }
     };
 
@@ -139,7 +144,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            await api.post("/logout-all");
+            await api.post("/auth/logout-all");
 
         } catch (error) {
 
@@ -152,6 +157,7 @@ export const AuthProvider = ({ children }) => {
 
             clearAccessToken();
             setUser(null);
+            socket.disconnect();
         }
     };
 
@@ -169,7 +175,7 @@ export const AuthProvider = ({ children }) => {
         try {
             
             const response = await api.post(
-                "/register",
+                "/auth/register",
                 {
                     username,
                     email,
@@ -205,7 +211,7 @@ export const AuthProvider = ({ children }) => {
         try {
 
             const response = await api.post(
-                "/verify-email",
+                "/auth/verify-email",
                 {
                     email,
                     otp
@@ -233,7 +239,7 @@ const resendOTP = async (email) => {
     try {
 
         const response = await api.post(
-            "/resend-otp",
+            "/auth/resend-otp",
             {
                 email
             }
@@ -268,6 +274,8 @@ const resendOTP = async (email) => {
         register,
         verifyEmail,
         resendOTP,
+        restoringSession,
+         accessToken,
         isAuthenticated: !!user
     };
 

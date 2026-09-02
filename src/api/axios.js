@@ -2,15 +2,20 @@ import axios from "axios";
 
 const api =axios.create({
     baseURL: window.location.hostname === "localhost"
-      ? "http://localhost:3006/api/auth"
-      : "https://backend-hackathon-seven.vercel.app/",
+      ? "http://localhost:3006/api"
+      : "https://backend-hackathon-seven.vercel.app/api",
     withCredentials:true
 })
 
 // Access token lives only in memory
 let accessToken = null;
+let isRefreshing = false;
 
+let isRestoringSession = false;
 
+export const setRestoringSession = (value) => {
+    isRestoringSession = value;
+};
 // Set access token
 export const setAccessToken = (token) => {
     accessToken = token;
@@ -33,16 +38,38 @@ export const getAccessToken = () => {
 // REQUEST INTERCEPTOR
 // =====================================
 
+// api.interceptors.request.use(
+//     (config) => {
+//    console.log("AXIOS REQUEST:", config.url);
+//         console.log("ACCESS TOKEN:", accessToken);
+//         if (accessToken) {
+//             config.headers.Authorization = `Bearer ${accessToken}`;
+//         }
+
+//         return config;
+//     },
+
+//     (error) => {
+//         return Promise.reject(error);
+//     }
+// );
+
 api.interceptors.request.use(
     (config) => {
+        console.log("AXIOS REQUEST:", config.url);
+        console.log("ACCESS TOKEN:", accessToken);
 
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
+        console.log(
+            "AUTH HEADER BEING SENT:",
+            config.headers.Authorization
+        );
+
         return config;
     },
-
     (error) => {
         return Promise.reject(error);
     }
@@ -54,48 +81,36 @@ api.interceptors.request.use(
 // =====================================
 
 api.interceptors.response.use(
-
-    // Successful response
     (response) => {
         return response;
     },
 
-    // Error response
     async (error) => {
-
         const originalRequest = error.config;
 
-        // Access token expired
-        if (
-            error.response?.status === 401 &&
-            !originalRequest._retry &&
-            !originalRequest.url.includes("/auth/refresh")
-        ) {
-
+    if (
+    error.response?.status === 401 &&
+    accessToken &&
+    !isRestoringSession &&
+    !originalRequest._retry &&
+    !originalRequest.url.includes("/auth/refresh")
+){
             originalRequest._retry = true;
 
             try {
-
-                // Get a new access token
                 const response = await api.get("/auth/refresh");
 
                 const newAccessToken = response.data.accessToken;
 
-                // Store new token in memory
                 setAccessToken(newAccessToken);
 
-                // Put new token on original request
                 originalRequest.headers.Authorization =
                     `Bearer ${newAccessToken}`;
 
-                // Retry original request
                 return api(originalRequest);
 
             } catch (refreshError) {
-
-                // Refresh token is invalid/expired
                 clearAccessToken();
-
                 return Promise.reject(refreshError);
             }
         }
