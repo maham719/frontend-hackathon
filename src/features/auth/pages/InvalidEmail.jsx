@@ -38,7 +38,7 @@ const InvalidEmail = () => {
                 isDark ? "text-[#f3ebff]" : "text-[#1d1e2d]"
               }`}
             >
-              Nebula
+            SupportFlow AI
             </span>
           </div>
 
