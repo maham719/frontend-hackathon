@@ -47,12 +47,15 @@ const [cooldown, setCooldown] = useState(0);
 
     setIsSubmitting(false);
 
-    if (result.success) {
-      console.log("Email verified successfully");
-      navigate("/login");
-    } else {
-      console.log(result.message);
+   if (!result.success) {
+    if (result.message?.toLowerCase().includes("invalid email")) {
+        navigate("/invalid-email");
+        return;
     }
+
+    setError(result.message);
+    return;
+}
   };
 
   const handleResendOTP = async () => {
@@ -102,7 +105,7 @@ const [cooldown, setCooldown] = useState(0);
                   isDark ? "text-[#f3ebff]" : "text-[#1d1e2d]"
                 }`}
               >
-                Nebula
+                Supportflow AI
               </span>
             </div>
 
@@ -174,7 +177,7 @@ const [cooldown, setCooldown] = useState(0);
                 isDark ? "text-[#f3ebff]" : "text-[#1d1e2d]"
               }`}
             >
-              Nebula
+             Supportflow AI
             </span>
           </div>
 

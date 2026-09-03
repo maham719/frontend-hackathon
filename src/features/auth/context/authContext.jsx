@@ -192,12 +192,15 @@ setRestoringSession(false);
  
         } catch (error) {
 
-            return {
-                success: false,
-                message:
-                    error.response?.data?.message ||
-                    "Registration failed"
-            };
+           return {
+    success: false,
+
+    code: error.response?.data?.code,
+
+    message:
+        error.response?.data?.message ||
+        "Registration failed"
+};
         }
     };
 

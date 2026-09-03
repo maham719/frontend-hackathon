@@ -19,16 +19,23 @@ const Register = () => {
 
     const result = await register(username, email, password);
 
-    if (result.success) {
-      console.log("Registration successful");
-     navigate("/verify-email", {
-  state: {
-    email: email.trim()
-  }
-});
-    } else {
-      console.log(result.message);
+  if (result.success) {
+  console.log("Registration successful");
+
+  navigate("/verify-email", {
+    state: {
+      email: email.trim()
     }
+  });
+} else {
+
+    if (result.code === "EMAIL_UNDELIVERABLE") {
+        navigate("/invalid-email");
+        return;
+    }
+
+    console.log(result.message);
+}
   };
 
   return (

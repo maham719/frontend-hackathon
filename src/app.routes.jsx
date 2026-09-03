@@ -10,6 +10,7 @@ import AdminDashboard from "./features/admin/pages/AdminDashboard.jsx";
 import UserAnalytics from "./features/user/components/UserAnalytics.jsx";
 import TicketDetail from "./features/user/components/TicketDetail.jsx";
 import AgentTicketDetails from "./features/agent/components/TicketDetails.jsx";
+import InvalidEmail from "./features/auth/pages/InvalidEmail.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
     path: "/verify-email",
     element: <VerifyEmail />,
   },
+  {
+  path: "/invalid-email",
+  element: <InvalidEmail/>
+},
   {
     path: "/dashboard",
     element: <ProtectedRoute />,
