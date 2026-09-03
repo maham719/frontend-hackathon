@@ -270,7 +270,7 @@ const resendOTP = async (email) => {
     const value = {
         user,
         loading,
-
+      setLoading,
         login,
         logout,
         logoutAll,
