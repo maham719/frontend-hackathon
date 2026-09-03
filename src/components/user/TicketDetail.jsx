@@ -342,33 +342,63 @@ const handleSendMessage = async () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="space-y-4">
-                        {messages.map((message) => {
-                          const isAgentMessage = message.senderRole === "agent" || message.sender?.role === "agent";
+                     <div className="flex max-h-[55vh] min-h-[250px] flex-col gap-4 overflow-y-auto custom-scrollbar">
+  {messages.map((message) => {
+    const isAgentMessage =
+      message.senderRole === "agent" ||
+      message.sender?.role === "agent";
 
-                          return (
-                            <div key={message._id || `${message.createdAt}-${message.sender?.username}`} className={`flex ${isAgentMessage ? "justify-end" : "justify-start"}`}>
-                            <div
-  className={`w-[80%] md:w-[40%] break-words rounded-2xl border px-2 py-2 md:px-3 md:py-3 ${
-    isAgentMessage
-      ? (isDark
-          ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
-          : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]")
-      : (isDark
-          ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
-          : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")
-  }`}
->
-                                <p className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-[#b9c4e8]" : "text-[#67627b]"}`}>
-                                  {message.sender?.username || message.senderRole || (isAgentMessage ? "Agent" : "Customer")}
-                                </p>
-                                <p className={`text-sm leading-6 ${isDark ? "text-[#e7ebff]" : "text-[#3f3b4f]"}`}>{message.content}</p>
-                                <p className={`mt-2 text-[10px] ${isDark ? "text-[#a9afd4]" : "text-[#6d687d]"}`}>{formatDate(message.createdAt)}</p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+    return (
+      <div
+        key={
+          message._id ||
+          `${message.createdAt}-${message.sender?.username}`
+        }
+        className={`flex ${
+          isAgentMessage ? "justify-end" : "justify-start"
+        }`}
+      >
+        <div
+          className={`w-[80%] md:w-[40%] break-words rounded-2xl border px-2 py-2 md:px-3 md:py-3 ${
+            isAgentMessage
+              ? isDark
+                ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
+                : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]"
+              : isDark
+                ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
+                : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]"
+          }`}
+        >
+          <p
+            className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+              isDark ? "text-[#b9c4e8]" : "text-[#67627b]"
+            }`}
+          >
+            {message.sender?.username ||
+              message.senderRole ||
+              (isAgentMessage ? "Agent" : "Customer")}
+          </p>
+
+          <p
+            className={`text-sm leading-6 ${
+              isDark ? "text-[#e7ebff]" : "text-[#3f3b4f]"
+            }`}
+          >
+            {message.content}
+          </p>
+
+          <p
+            className={`mt-2 text-[10px] ${
+              isDark ? "text-[#a9afd4]" : "text-[#6d687d]"
+            }`}
+          >
+            {formatDate(message.createdAt)}
+          </p>
+        </div>
+      </div>
+    );
+  })}
+</div>
                     )}
                   </div>
 

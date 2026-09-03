@@ -575,48 +575,87 @@ useEffect(() => {
               </div>
 
               <div className={`rounded-[22px] border p-3 sm:p-4 ${softPanel}`}>
-                {messages.length === 0 ? (
-                  <div className="flex min-h-[160px] items-center justify-center rounded-[18px] border border-dashed p-4 text-center sm:min-h-[220px] sm:p-6">
-                    <div>
-                      <div className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${isDark ? "bg-[#1d2537] text-[#d7c7ff]" : "bg-[#efe6ff] text-[#6d4bc8]"}`}>
-                        <MessageSquareText size={20} />
-                      </div>
-                      <p className={`text-base font-medium ${heading}`}>No conversation messages yet</p>
-                      <p className={`mt-2 text-sm ${muted}`}>The latest ticket messages will appear here once they are available.</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {messages.map((message) => {
-                      const isAgentMessage = message.senderRole === "agent" || message.sender?.role === "agent" || message.sender?._id === user?._id;
+  {messages.length === 0 ? (
+    <div className="flex min-h-[160px] items-center justify-center rounded-[18px] border border-dashed p-4 text-center sm:min-h-[220px] sm:p-6">
+      <div>
+        <div className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${
+          isDark
+            ? "bg-[#1d2537] text-[#d7c7ff]"
+            : "bg-[#efe6ff] text-[#6d4bc8]"
+        }`}>
+          <MessageSquareText size={20} />
+        </div>
 
-                      return (
-                        <div key={message._id || `${message.createdAt}-${message.sender?.username}`} className={`flex ${isAgentMessage ? "justify-end" : "justify-start"}`}>
-                          <div
-  className={`w-[80%] md:w-[40%] break-words rounded-2xl border
-    px-2 py-2 md:px-3 md:py-3
-    ${isAgentMessage
-      ? (isDark
-          ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
-          : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]")
-      : (isDark
-          ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
-          : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]")
-    }`}
->
-                            <p className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-[#b9c4e8]" : "text-[#67627b]"}`}>
-                              {message.sender?.username || message.senderRole || (isAgentMessage ? "Agent" : "Customer")}
-                            </p>
-                            <p className={`text-sm leading-6 ${isDark ? "text-[#e7ebff]" : "text-[#3f3b4f]"}`}>{message.content}</p>
-                            <p className={`mt-2 text-[10px] ${isDark ? "text-[#a9afd4]" : "text-[#6d687d]"}`}>{formatDate(message.createdAt)}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+        <p className={`text-base font-medium ${heading}`}>
+          No conversation messages yet
+        </p>
 
+        <p className={`mt-2 text-sm ${muted}`}>
+          The latest ticket messages will appear here once they are available.
+        </p>
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex max-h-[55vh] min-h-[250px] flex-col gap-4 overflow-y-auto custom-scrollbar">
+      {messages.map((message) => {
+        const isAgentMessage =
+          message.senderRole === "agent" ||
+          message.sender?.role === "agent" ||
+          message.sender?._id === user?._id;
+
+        return (
+          <div
+            key={
+              message._id ||
+              `${message.createdAt}-${message.sender?.username}`
+            }
+            className={`flex ${
+              isAgentMessage ? "justify-end" : "justify-start"
+            }`}
+          >
+            <div
+              className={`w-[80%] break-words rounded-2xl border px-2 py-2 md:w-[40%] md:px-3 md:py-3 ${
+                isAgentMessage
+                  ? isDark
+                    ? "border-[#4d5ecb] bg-[#1f2d52] text-[#f3ebff]"
+                    : "border-[#d0c0fb] bg-[#efe7ff] text-[#171827]"
+                  : isDark
+                    ? "border-[#2d3548] bg-[#1b2330] text-[#f3ebff]"
+                    : "border-[#e7dff3] bg-[#f9f6ff] text-[#1f1f2e]"
+              }`}
+            >
+              <p
+                className={`mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+                  isDark ? "text-[#b9c4e8]" : "text-[#67627b]"
+                }`}
+              >
+                {message.sender?.username ||
+                  message.senderRole ||
+                  (isAgentMessage ? "Agent" : "Customer")}
+              </p>
+
+              <p
+                className={`text-sm leading-6 ${
+                  isDark ? "text-[#e7ebff]" : "text-[#3f3b4f]"
+                }`}
+              >
+                {message.content}
+              </p>
+
+              <p
+                className={`mt-2 text-[10px] ${
+                  isDark ? "text-[#a9afd4]" : "text-[#6d687d]"
+                }`}
+              >
+                {formatDate(message.createdAt)}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  )}
+</div>
               <div className={`mt-5 rounded-[20px] border p-4 ${softPanel}`}>
                 <label className={`mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] ${subText}`}>Reply</label>
                 {isOtherUserTyping && (
