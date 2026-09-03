@@ -1,5 +1,13 @@
 # React + Vite
 
+# AdminCredentials:
+email:syedamahamamjad@gmail.com
+password:12345678
+
+# Agent Credentials:
+email:test@gmail.com
+password:12345678
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
