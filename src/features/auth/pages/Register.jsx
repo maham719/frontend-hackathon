@@ -12,17 +12,18 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { register,loading,setLoading } = useAuth();
-
+  const { register,loading } = useAuth();
+const [registerloading, setRegisterLoading] = useState(false);
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setRegisterLoading(true);
 
     const result = await register(username, email, password);
 
   if (result.success) {
   console.log("Registration successful");
-
+  
+setRegisterLoading(false);
   navigate("/verify-email", {
     state: {
       email: email.trim()
@@ -201,10 +202,10 @@ const Register = () => {
 
             <button
               type="submit"
-              disabled={loading}  
+              disabled={registerloading}  
               className="mt-2 w-full rounded-xl bg-gradient-to-r from-[#9b5ce7] to-[#7f46d9] px-4 py-3 text-lg font-semibold text-white shadow-[0_12px_25px_rgba(127,70,217,0.35)] transition-transform hover:scale-[1.01]"
             >
-            { loading? "Creating account..." : "Create account" }
+            { registerloading? "Creating account..." : "Create account" }
             </button>
           </form>
 
