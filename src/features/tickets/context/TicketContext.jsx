@@ -6,7 +6,8 @@ import {
     createTicketService,getAgentTicketsService
 } from "../services/ticket.service.js";
 import socket from "../../../services/socket.js";
-const TicketContext = createContext();
+import api from "../../../api/axios.js";
+const TicketContext = createContext(null);
 
 export const TicketProvider = ({ children }) => {
   const [tickets, setTickets] = useState([]);
@@ -246,6 +247,25 @@ const createTicket = async (ticketData) => {
       socket.off("new-message", handleNewMessage);
     };
   };
+const deleteTicket = async (ticketId) => {
+  try {
+    const response = await api.delete(`/admin/tickets/${ticketId}`);
+
+    // Update context state immediately
+    setTickets((prevTickets) =>
+      prevTickets.filter((ticket) => ticket._id !== ticketId)
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Delete ticket error:",
+      error.response?.data?.message || error.message
+    );
+
+    throw error;
+  }
+};
 
   const value = {
   tickets,
@@ -264,7 +284,8 @@ const createTicket = async (ticketData) => {
     getCustomerTickets,
     getAgentTickets,
     sendMessage,
-    joinTicket
+    joinTicket,
+    deleteTicket,
   };
 
   return (

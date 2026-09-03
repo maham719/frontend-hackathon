@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Themetogglebutton from "../../../components/Themetogglebutton";
 import { useTheme } from "../../../context/ThemeContext.jsx";
-import { useAuth } from "../services/authContext.jsx";
+import { useAuth } from "../context/authContext.jsx";
 
 const Register = () => {
   const { theme } = useTheme();

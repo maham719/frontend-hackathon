@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../features/auth/services/authContext.jsx";
+import { useAuth } from "../features/auth/context/authContext.jsx";
 
-import UserDashboard from "../features/auth/pages/UserDashboard.jsx";
+import UserDashboard from "../features/user/pages/UserDashboard.jsx";
 import Loading from "./Loading.jsx";
-import AgentDashboard from "../features/auth/pages/AgentDashboard.jsx";
-import AdminDashboard from "../features/auth/pages/AdminDashboard.jsx";
+import AgentDashboard from "../features/agent/pages/AgentDashboard.jsx";
+import AdminDashboard from "../features/admin/pages/AdminDashboard.jsx";
 
 const ProtectedRoute = () => {
     const { user, loading } = useAuth();

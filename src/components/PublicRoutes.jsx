@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../features/auth/services/authContext.jsx";
+import { useAuth } from "../features/auth/context/authContext.jsx";
 import Loading from "./Loading.jsx";
 
 const PublicRoute = ({ children }) => {

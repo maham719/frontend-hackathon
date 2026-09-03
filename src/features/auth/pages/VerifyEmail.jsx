@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import Themetogglebutton from "../../../components/Themetogglebutton";
 import { useTheme } from "../../../context/ThemeContext.jsx";
-import { useAuth } from "../services/authContext.jsx";
+import { useAuth } from "../context/authContext.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {

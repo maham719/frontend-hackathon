@@ -5,11 +5,11 @@ import Register from "./features/auth/pages/Register";
 import VerifyEmail from "./features/auth/pages/VerifyEmail";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoutes.jsx";
-import AgentDashboard from "./features/auth/pages/AgentDashboard.jsx";
-import AdminDashboard from "./features/auth/pages/AdminDashboard.jsx";
-import UserAnalytics from "./components/user/UserAnalytics.jsx";
-import TicketDetail from "./components/user/TicketDetail.jsx";
-import AgentTicketDetails from "./components/agent/TicketDetails.jsx";
+import AgentDashboard from "./features/agent/pages/AgentDashboard.jsx";
+import AdminDashboard from "./features/admin/pages/AdminDashboard.jsx";
+import UserAnalytics from "./features/user/components/UserAnalytics.jsx";
+import TicketDetail from "./features/user/components/TicketDetail.jsx";
+import AgentTicketDetails from "./features/agent/components/TicketDetails.jsx";
 
 export const router = createBrowserRouter([
   {
