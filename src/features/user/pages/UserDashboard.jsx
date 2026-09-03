@@ -7,6 +7,7 @@ import CreateTicket from "../components/CreateTicket.jsx";
 import UserAnalytics from "../components/UserAnalytics.jsx";
 import AllTickets from "../components/AllTickets.jsx";
 import { useAuth } from "../../auth/context/authContext.jsx";
+import NotificationBell from "../../../components/NotificationBell.jsx";
 const navItems = [
   { label: "Dashboard", icon: "▣" },
   { label: "Tickets", icon: "▤" },
@@ -153,6 +154,7 @@ const UserDashboard = () => {
 
             <div className="ml-auto flex items-center gap-3 sm:gap-4">
               <Themetogglebutton />
+              <NotificationBell />
               <div className={`flex h-10 w-10 items-center justify-center rounded-full border border-[#8d5fe5] bg-linear-to-br from-[#d7c3ff] to-[#8d5fe5] text-sm font-bold text-[#1b1027]`}>
                 {user?.username?.charAt(0).toUpperCase() || "U"}
               </div>
