@@ -3,7 +3,7 @@ import axios from "axios";
 const api =axios.create({
     baseURL: window.location.hostname === "localhost"
       ? "http://localhost:3006/api"
-      : "https://backend-hackathon-seven.vercel.app/api",
+      : "https://backend-hackathon-1dgv.onrender.com/api",
     withCredentials:true
 })
 
