@@ -20,24 +20,41 @@ const [registerloading, setRegisterLoading] = useState(false);
 
     const result = await register(username, email, password);
 
-  if (result.success) {
-  console.log("Registration successful");
-  
-setRegisterLoading(false);
-  navigate("/verify-email", {
-    state: {
-      email: email.trim()
-    }
-  });
-} else {
-
-    if (result.code === "EMAIL_UNDELIVERABLE") {
-        navigate("/invalid-email");
-        return;
+    if (result.success) {
+      console.log("Registration successful");
+      setRegisterLoading(false);
+      navigate("/verify-email", {
+        state: {
+          email: email.trim()
+        }
+      });
+      return;
     }
 
-    console.log(result.message);
-}
+    setRegisterLoading(false);
+
+    const isKickboxUndeliverable =
+      result.code === "EMAIL_UNDELIVERABLE" ||
+      String(result.message || "")
+        .toLowerCase()
+        .includes("cannot receive verification emails") ||
+      String(result.message || "")
+        .toLowerCase()
+        .includes("email is invalid") ||
+      String(result.message || "")
+        .toLowerCase()
+        .includes("undeliverable");
+
+    if (isKickboxUndeliverable) {
+      navigate("/invalid-email", {
+        state: {
+          email: email.trim()
+        }
+      });
+      return;
+    }
+
+    console.log(result.message || "Registration failed");
   };
 
   return (

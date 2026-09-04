@@ -192,15 +192,22 @@ setRestoringSession(false);
  
         } catch (error) {
 
-           return {
-    success: false,
+            const backendCode = error.response?.data?.code;
+            const backendMessage = error.response?.data?.message || "Registration failed";
+            const normalizedMessage = String(backendMessage).trim();
+            const kickboxCode =
+                backendCode === "EMAIL_UNDELIVERABLE" ||
+                normalizedMessage.toLowerCase().includes("cannot receive verification emails") ||
+                normalizedMessage.toLowerCase().includes("email is invalid") ||
+                normalizedMessage.toLowerCase().includes("undeliverable")
+                    ? "EMAIL_UNDELIVERABLE"
+                    : backendCode || "REGISTRATION_FAILED";
 
-    code: error.response?.data?.code,
-
-    message:
-        error.response?.data?.message ||
-        "Registration failed"
-};
+            return {
+                success: false,
+                code: kickboxCode,
+                message: backendMessage
+            };
         }
     };
 
