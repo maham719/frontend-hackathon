@@ -46,7 +46,7 @@ const [cooldown, setCooldown] = useState(0);
     const result = await verifyEmail(email.trim(), otp.trim());
 
     setIsSubmitting(false);
-
+   navigate("/login")
    if (!result.success) {
     if (result.message?.toLowerCase().includes("invalid email")) {
         navigate("/invalid-email");
