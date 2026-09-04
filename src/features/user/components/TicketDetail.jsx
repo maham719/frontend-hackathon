@@ -320,7 +320,7 @@ const handleSendMessage = async () => {
           `${message.createdAt}-${message.sender?.username}`
         }
         className={`flex ${
-          isAgentMessage ? "justify-end" : "justify-start"
+          isAgentMessage ? "justify-start":"justify-end" 
         }`}
       >
         <div
