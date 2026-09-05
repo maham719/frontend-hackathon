@@ -20,6 +20,7 @@ const Agents = () => {
     email: "",
     password: "",
     category: "",
+    verified: false,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -82,7 +83,13 @@ const handleDeleteAgent = async (agentId) => {
           first.username.localeCompare(second.username),
         ),
       );
-      setForm({ username: "", email: "", password: "", category: "" });
+      setForm({
+        username: "",
+        email: "",
+        password: "",
+        category: "",
+        verified: false,
+      });
       setModalOpen(false);
     } catch (createError) {
       setError(
@@ -169,11 +176,12 @@ const handleDeleteAgent = async (agentId) => {
         <div
           className={`overflow-x-auto rounded-[18px] border ${isDark ? "border-[#2b3548]" : "border-[#e7dff3]"}`}
         >
-          <table className="w-full min-w-[760px] text-left text-sm">
+          <table className="w-full min-w-[840px] text-left text-sm">
             <thead className={isDark ? "bg-[#171f2d]" : "bg-[#efe8f8]"}>
               <tr>
                 {[
                   "Name",
+                  "Category",
                   "Email",
                   "Status",
                   "Assigned Tickets",
@@ -197,6 +205,9 @@ const handleDeleteAgent = async (agentId) => {
                 <tr key={agent._id}>
                   <td className={`px-4 py-4 font-semibold ${heading}`}>
                     {agent.username}
+                  </td>
+                  <td className={`px-4 py-4 capitalize ${muted}`}>
+                    {agent.category || "Unassigned"}
                   </td>
                   <td className={`px-4 py-4 ${muted}`}>{agent.email}</td>
                   <td className="px-4 py-4">
@@ -299,6 +310,23 @@ const handleDeleteAgent = async (agentId) => {
                   <option value="billing">Billing</option>
                   <option value="account">Account</option>
                   <option value="general">General</option>
+                </select>
+              </label>
+              <label className={`block text-sm font-medium ${heading}`}>
+                Verification
+                <select
+                  required
+                  value={String(form.verified)}
+                  onChange={(event) =>
+                    setForm({
+                      ...form,
+                      verified: event.target.value === "true",
+                    })
+                  }
+                  className={`mt-1.5 w-full rounded-xl border px-3 py-2.5 outline-none focus:border-[#8d5fe5] ${control}`}
+                >
+                  <option value="false">Not verified</option>
+                  <option value="true">Verified</option>
                 </select>
               </label>
               {error && <p className="text-sm text-[#ff7777]">{error}</p>}
